@@ -1,0 +1,6 @@
+/var/lib/tomcat8/logs/ifield_Admin-api
+/var/lib/tomcat8/logs/ifield_Admin-api_error
+/var/lib/tomcat8/logs/ifield_Mgr-api
+/var/lib/tomcat8/logs/ifield_Mgr-api_error
+/var/lib/tomcat8/logs/ifield_api
+/var/lib/tomcat8/logs/ifield_api_error
