@@ -5,6 +5,12 @@
 # 対象：全環境共通
 ################################################################
 
+# 固有定数宣言
+APP_NAME=ifield_hitachiKenki_usage_stats_batch
+APP_NAME_SHORT=slm_usage_stats_batch
+JAR_NAME=usageStatsBatch.jar
+ORG_JAR_NAME=slm_usage_stats_batch-jar-with-dependencies.jar
+
 # 定数シェル読み込み
 . ../build_common/build_slm_const.sh
 
@@ -13,11 +19,6 @@
 
 # 引数共通処理実行
 . ../build_common/build_slm_com_getopts.sh
-
-# 固有定数宣言
-APP_NAME=ifield_hitachiKenki_usage_stats_batch
-JAR_NAME=usageStatsBatch.jar
-ORG_JAR_NAME=slm_usage_stats_batch-jar-with-dependencies.jar
 
 # 前準備
 prepare() {
@@ -33,6 +34,11 @@ prepare() {
         mkdir -p ${SND_DIR}/shell
     fi
     cp ${APP_DIR}/${APP_NAME}/shell/*.sh ${SND_DIR}/shell/
+
+    # CodeDeploy関連ファイルをコピー
+    cp ${CODE_DEPLOY_SCRIPTS_DIR}/${APP_NAME_S}/appspec.yml ${SND_DIR}/
+    mkdir -p ${SND_DIR}/scripts
+    cp ${CODE_DEPLOY_SCRIPTS_DIR}/${APP_NAME_S}/scripts/before_install.sh ${SND_DIR}/scripts/
 }
 
 # ifield_hitachiKenki_usage_stats_batchのビルド
@@ -63,7 +69,7 @@ RELEASE_PRF=${TARGET_PRF}
 
 for release_server in "${RELEASE_SRV_LIST[@]}"
 do
-    SND_DIR=${SRV_DIR}/${release_server}/${SEND}/${RELEASE_DATE}
+    SND_DIR=${SRV_DIR}/${release_server}/${SEND}/${RELEASE_DATE}/${APP_NAME_S}
     
     # 前準備
     prepare
@@ -72,7 +78,7 @@ do
     build_usage_stats_batch
 
     # リリース先へ転送
-    rsync -avz ${SND_DIR} ${release_server}:~/release/
+    #rsync -avz ${SND_DIR} ${release_server}:~/release/
 done
 
 echo "run time:$SECONDS"

@@ -44,6 +44,10 @@ fi
 
 # Gitのブランチ名 省略時は「develop」
 if [ "${TARGET_GIT_BRANCH}" = "" ]; then
-    export TARGET_GIT_BRANCH="develop"
+    if [ "${TARGET_PRF}" = "dev-poc" ] || [ "${TARGET_PRF}" = "poc" ]; then
+        export TARGET_GIT_BRANCH="develop"
+    else
+        export TARGET_GIT_BRANCH="master" 
+    fi
 fi
 

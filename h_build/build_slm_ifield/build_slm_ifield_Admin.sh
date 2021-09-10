@@ -4,11 +4,11 @@
 # 日立建機・日立建機管理用ビルドシェル用
 ################################################################
 
-# 定数シェル読み込み
-. ../build_common/build_slm_const.sh
-
 # 固有定数宣言
 APP_NAME=ifield_hitachiKenki-Admin
+
+# 定数シェル読み込み
+. ../build_common/build_slm_const.sh
 
 # WEB用定数シェル読み込み
 . ../build_common/build_slm_const_web.sh
@@ -53,10 +53,16 @@ build_ifield_hitachiKenki-Admin-web() {
 SECONDS=0
 WEB_FLG=true
 
+# プロファイルからサーバ名等を設定
+set_server_env
+
 for RELEASE_SRV in ${RELEASE_SRV_LIST[@]}
 do
-    echo "Build for ${RELEASE_SRV} start"
-    SND_DIR=${SRV_DIR}/${RELEASE_SRV}/${SEND}/${RELEASE_DATE}
+    echo "Build for ${RELEASE_SRV} START"
+    echo "Maven profile：${RELEASE_PRF}"
+    echo "Git branch：${TARGET_GIT_BRANCH}"
+
+    SND_DIR=${SRV_DIR}/${RELEASE_SRV}/${SEND}/${RELEASE_DATE}/${APP_NAME_S}
 
     # 前準備
     prepare
@@ -66,7 +72,6 @@ do
     "all")
         echo "ifield_hitachiKenki-Admin all build"
         build_ifield_hitachiKenki-Admin-api
-        build_ifield_hitachiKenki-Admin-web
         if $WEB_FLG ; then
             build_ifield_hitachiKenki-Admin-web
             WEB_FLG=false
@@ -93,9 +98,9 @@ do
     esac
 
     # リリース先へ転送
-    rsync -avz ${SND_DIR} ${RELEASE_SRV}:~/release/
+    #rsync -avz ${SND_DIR} ${RELEASE_SRV}:~/release/
     
-    echo "Build for ${RELEASE_SRV} e n d"
+    echo "Build for ${RELEASE_SRV} E N D"
 done
 
 # main----------------------------------------------------------------E N D

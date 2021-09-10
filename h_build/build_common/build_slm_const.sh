@@ -13,3 +13,6 @@ export SRV_DIR=${ROOT}/${SERVERS}
 # ビルド用アプリフォルダを設定
 export APP_DIR=${ROOT}/${APPS}
 
+# CodeDeployのスクリプトフォルダ
+export CODE_DEPLOY_SCRIPTS_DIR=~/build/tools/CodeDeploy
+

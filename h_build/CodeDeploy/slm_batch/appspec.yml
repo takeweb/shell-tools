@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: jar/
+    destination: /home/ec2-user/batch/KenkiSlm
+hooks:
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: ec2-user

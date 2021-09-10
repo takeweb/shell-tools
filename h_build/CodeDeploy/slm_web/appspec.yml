@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: war/
+    destination: /var/lib/tomcat8/webapps
+hooks:
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: ec2-user
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: ec2-user
